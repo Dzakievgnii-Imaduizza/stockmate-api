@@ -4,7 +4,6 @@ const register = async (req, res) => {
   try {
     const user = await userService.registerUser(req.body);
     // Don't send the password back in the response
-    delete user.password;
     res.status(201).json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });

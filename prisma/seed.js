@@ -22,7 +22,7 @@ async function main() {
           {
             name: 'The Boss',
             email: 'boss@stockmate.com',
-            password_hash: 'top-secret-hash', // Use bcrypt to hash in real apps
+            password_hash: '$2b$10$HNGRsigfUwjonteu9pyYL.0pAoqFT0VmvUo3KF7I.rb.c3S7BmYuS', // Use bcrypt to hash in real apps
             role: 'ADMIN',
           },
         ],
