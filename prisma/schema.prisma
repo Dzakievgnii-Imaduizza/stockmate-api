@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client/"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+model Store {
+  id         String   @id @default(uuid())
+  name       String
+  address    String
+  owner_id   String   @unique
+  created_at DateTime @default(now())
+
+  // Relations
+  users        User[]
+  categories   Category[]
+  suppliers    Supplier[]
+  products     Product[]
+  stock_rules  StockRule[]
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  role          String
+  store_id      String?
+  created_at    DateTime @default(now())
+
+  // Relations
+  store        Store?        @relation(fields: [store_id], references: [id])
+  transactions Transaction[]
+  notifications Notification[]
+}
+
+model Category {
+  id       String @id @default(uuid())
+  store_id String
+  name     String
+
+  // Relations
+  store    Store     @relation(fields: [store_id], references: [id])
+  products Product[]
+}
+
+model Supplier {
+  id         String   @id @default(uuid())
+  store_id   String
+  name       String
+  phone      String
+  address    String
+  latitude   Float?
+  longitude  Float?
+  created_at DateTime @default(now())
+
+  // Relations
+  store Store @relation(fields: [store_id], references: [id])
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  store_id    String
+  category_id String
+  name        String
+  buy_price   Float
+  sell_price  Float
+  stock_qty   Int      @default(0)
+  min_stock   Int      @default(5)
+  unit        String
+  created_at  DateTime @default(now())
+
+  // Relations
+  store        Store         @relation(fields: [store_id], references: [id])
+  category     Category      @relation(fields: [category_id], references: [id])
+  transactions Transaction[]
+  stock_rules  StockRule[]
+  notifications Notification[]
+}
+
+model Transaction {
+  id         String   @id @default(uuid())
+  product_id String
+  user_id    String
+  type       String   // e.g., "IN", "OUT"
+  qty        Int
+  note       String?
+  created_at DateTime @default(now())
+
+  // Relations
+  product Product @relation(fields: [product_id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
+}
+
+model StockRule {
+  id                 String   @id @default(uuid())
+  store_id           String
+  product_id         String
+  min_threshold      Int
+  restock_suggestion Int
+  updated_at         DateTime @updatedAt
+
+  // Relations
+  store   Store   @relation(fields: [store_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  user_id    String
+  product_id String
+  message    String
+  is_read    Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  // Relations
+  user    User    @relation(fields: [user_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
+}

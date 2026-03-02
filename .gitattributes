@@ -1,0 +1,10 @@
+# Handle line endings automatically
+* text=auto
+
+# Explicitly set default for text files
+*.js text eol=lf
+*.json text eol=lf
+
+# Denote binary files
+*.png binary
+*.jpg binary
