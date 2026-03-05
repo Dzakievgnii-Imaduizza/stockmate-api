@@ -106,7 +106,7 @@ model Transaction {
 model StockRule {
   id                 String   @id @default(uuid())
   store_id           String
-  product_id         String
+  product_id         String   @unique
   min_threshold      Int
   restock_suggestion Int
   updated_at         DateTime @updatedAt

@@ -5,6 +5,10 @@ const storeRoutes = require('./src/routes/store.routes');
 const userRoutes = require('./src/routes/user.routes');
 const categoryRoutes = require('./src/routes/category.routes');
 const productRoutes = require('./src/routes/product.routes');
+const transactionRoutes = require('./src/routes/transaction.routes');
+const supplierRoutes = require("./src/routes/supplier.routes");
+const notificationRoutes = require("./src/routes/notification.routes");
+const stockRuleRoutes = require("./src/routes/stockRule.routes");
 
 // Load environment variables
 dotenv.config();
@@ -20,6 +24,10 @@ app.use('/api/store', storeRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use("/api/suppliers", supplierRoutes);
+app.use("/api/notif", notificationRoutes);
+app.use("/api/rule", stockRuleRoutes);
 
 
 // Health Check
