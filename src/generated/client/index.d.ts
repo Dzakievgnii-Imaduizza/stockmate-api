@@ -11472,17 +11472,17 @@ export namespace Prisma {
 
   export type StockRuleWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    product_id?: string
     AND?: StockRuleWhereInput | StockRuleWhereInput[]
     OR?: StockRuleWhereInput[]
     NOT?: StockRuleWhereInput | StockRuleWhereInput[]
     store_id?: StringFilter<"StockRule"> | string
-    product_id?: StringFilter<"StockRule"> | string
     min_threshold?: IntFilter<"StockRule"> | number
     restock_suggestion?: IntFilter<"StockRule"> | number
     updated_at?: DateTimeFilter<"StockRule"> | Date | string
     store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
-  }, "id">
+  }, "id" | "product_id">
 
   export type StockRuleOrderByWithAggregationInput = {
     id?: SortOrder
