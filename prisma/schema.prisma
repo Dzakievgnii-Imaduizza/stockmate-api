@@ -38,6 +38,7 @@ model User {
   role          String
   store_id      String?
   created_at    DateTime @default(now())
+  otp           String?
 
   // Relations
   store        Store?        @relation(fields: [store_id], references: [id])

@@ -16,7 +16,6 @@ const registerUser = async (data) => {
 const loginUser = async (email, password) => {
   const user = await userRepo.findByEmail(email);
   if (!user) throw new Error('Invalid email or password');
-  console.log(user);
 
   const isMatch = await bcrypt.compare(password, user.password_hash);
   if (!isMatch) throw new Error('Invalid email or password');
@@ -46,7 +45,26 @@ const updateUser = async (id, data) => {
     const salt = await bcrypt.genSalt(10);
     data.password_hash = await bcrypt.hash(data.password_hash, salt);
   }
+  if (data.otp) {
+    const salt = await bcrypt.genSalt(10);
+    data.otp = await bcrypt.hash(data.otp.toString(), salt);
+  }
   return await userRepo.update(id, data);
+};
+
+const verifyOtp = async (email, otp) => {
+  const user = await userRepo.findByEmail(email);
+  console.log(user);
+  if (!user) throw new Error('User not found');
+
+  const isMatch = await bcrypt.compare(otp, user.otp);
+  if (!isMatch) throw new Error('Invalid OTP');
+
+  return true;
+};
+
+const getUserByEmail = async (email) => {
+  return await userRepo.findByEmail(email);
 };
 
 const deleteUser = async (id) => await userRepo.remove(id);
@@ -56,6 +74,8 @@ module.exports = {
   loginUser, 
   getAllUsers, 
   getUserProfile, 
-  updateUser, 
+  updateUser,
+  verifyOtp,
+  getUserByEmail, 
   deleteUser 
 };

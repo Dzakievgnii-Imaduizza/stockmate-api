@@ -1,4 +1,5 @@
 const userService = require('../services/user.service');
+const n8nService = require('../services/n8n.service');
 
 const register = async (req, res) => {
   try {
@@ -54,6 +55,59 @@ const patchUser = async (req, res) => {
   }
 };
 
+const giveOtp = async (req, res) => {
+  try {
+    const  email  = req.body.email;
+
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+    
+    const user = await userService.getUserByEmail(email);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    
+    const id = user.id;
+
+    const otp = Math.floor(100000 + Math.random() * 900000); // Generate a random 6-digit OTP
+
+    await userService.updateUser(id, { otp: otp }); 
+    await n8nService.sendResetCodeEmail(email, otp);
+    res.status(200).json({ message: "OTP sent to email" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+const verifyOtp = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const otp = req.body.otp;
+
+    if (!email || !otp) {
+      return res.status(400).json({ error: "Email and OTP are required" });
+    }
+
+    const user = await userService.getUserByEmail(email);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    
+    const isValidOtp = await userService.verifyOtp(email, otp);
+
+    if (!isValidOtp) {
+      return res.status(401).json({ error: "Invalid OTP" });
+    }
+
+    res.status(200).json({ message: "OTP verified successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const removeUser = async (req, res) => {
   try {
     await userService.deleteUser(req.params.id);
@@ -63,4 +117,4 @@ const removeUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUsers, getUserById, patchUser, removeUser };
+module.exports = { register, login, getUsers, getUserById, patchUser, removeUser, verifyOtp, giveOtp };

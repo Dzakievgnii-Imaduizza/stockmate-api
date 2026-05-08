@@ -10,6 +10,8 @@ const supplierRoutes = require("./src/routes/supplier.routes");
 const notificationRoutes = require("./src/routes/notification.routes");
 const stockRuleRoutes = require("./src/routes/stockRule.routes");
 const dashboardRoutes = require('./src/routes/dashboard.routes');
+const {protect, adminOnly} = require('./src/middlewares/auth.middleware');
+const path = require('path');
 
 // Load environment variables
 dotenv.config();
@@ -19,6 +21,13 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+app.use(
+  '/reports', 
+  protect, 
+  adminOnly, 
+  express.static(path.join(process.cwd(), 'reports'))
+);
 
 // --- Routes ---
 app.use('/api/store', storeRoutes);
