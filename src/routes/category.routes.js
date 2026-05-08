@@ -6,7 +6,7 @@ const { protect, adminOnly } = require('../middlewares/auth.middleware');
 // Apply protection to all category routes
 router.use(protect);
 
-router.post('/', adminOnly, categoryCtrl.addCategory);
+router.post('/', protect, adminOnly, categoryCtrl.addCategory);
 router.get('/', categoryCtrl.getAllCategories);
 router.get('/:id', categoryCtrl.getOneCategory);
 

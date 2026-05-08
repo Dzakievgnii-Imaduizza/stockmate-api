@@ -40,10 +40,71 @@ const findById = async (id, storeId) => {
       user: true
     }
   });
+  
+};
+// NEW: Count transactions between dates, filtering through the product relation
+const countByDateRange = async (storeId, startDate, endDate) => {
+  return prisma.transaction.count({
+    where: {
+      product: {
+        store_id: storeId
+      },
+      created_at: {
+        gte: startDate,
+        lte: endDate
+      }
+    }
+  });
+};
+const findInTransactionsByDateRange = async (storeId, startDate, endDate) => {
+  return prisma.transaction.findMany({
+    where: {
+      product: {
+        store_id: storeId
+      },
+      type: 'IN',
+      created_at: {
+        gte: startDate,
+        lte: endDate
+      }
+    },
+    include: {
+      product: true,
+      user: true
+    },
+    orderBy: {
+      created_at: 'desc'
+    }
+  });
+};
+
+const findOutTransactionsByDateRange = async (storeId, startDate, endDate) => {
+  return prisma.transaction.findMany({
+    where: {
+      product: {
+        store_id: storeId
+      },
+      type: 'OUT',
+      created_at: {
+        gte: startDate,
+        lte: endDate
+      }
+    },
+    include: {
+      product: true,
+      user: true
+    },
+    orderBy: {
+      created_at: 'desc'
+    }
+  });
 };
 
 module.exports = {
   create,
   findAllByStore,
-  findById
+  findById,
+  countByDateRange,
+  findInTransactionsByDateRange,
+  findOutTransactionsByDateRange
 };

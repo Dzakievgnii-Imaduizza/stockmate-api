@@ -31,4 +31,11 @@ const remove = async (id, storeId) => {
   });
 };
 
-module.exports = { create, findByStore, findById, update, remove };
+// NEW: Function to count total products for a specific store
+const countByStore = async (storeId) => {
+  return await prisma.product.count({
+    where: { store_id: storeId }
+  });
+};
+
+module.exports = { create, findByStore, findById, update, remove, countByStore };

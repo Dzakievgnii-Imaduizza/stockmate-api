@@ -34,6 +34,14 @@ const update = async (id, storeId, data) => {
   });
 };
 
+const countByStore = async (storeId) => {
+  return await prisma.supplier.count({
+    where: {
+      store_id: storeId // Adjust this field name if your Prisma schema differs
+    }
+  });
+};
+
 const remove = async (id, storeId) => {
   return prisma.supplier.deleteMany({
     where: {
@@ -48,5 +56,6 @@ module.exports = {
   findByStore,
   findById,
   update,
+  countByStore,
   remove
 };
