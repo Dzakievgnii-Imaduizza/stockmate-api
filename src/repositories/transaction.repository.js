@@ -99,6 +99,26 @@ const findOutTransactionsByDateRange = async (storeId, startDate, endDate) => {
     }
   });
 };
+const findTransactionsByDateRange = async (storeId, startDate, endDate) => {
+  return prisma.transaction.findMany({
+    where: {
+      product: {
+        store_id: storeId
+      },
+      created_at: {
+        gte: startDate,
+        lte: endDate
+      }
+    },
+    include: {
+      product: true,
+      user: true
+    },
+    orderBy: {
+      created_at: 'desc'
+    }
+  });
+};
 
 module.exports = {
   create,
@@ -106,5 +126,6 @@ module.exports = {
   findById,
   countByDateRange,
   findInTransactionsByDateRange,
-  findOutTransactionsByDateRange
+  findOutTransactionsByDateRange,
+  findTransactionsByDateRange
 };

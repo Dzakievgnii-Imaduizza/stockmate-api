@@ -1,5 +1,6 @@
 const prisma = require('../config/prisma');
 const { checkStockAndNotify } = require("./notification.service");
+const transactionRepo = require('../repositories/transaction.repository');
 
 const createTransaction = async (data) => {
 
@@ -75,6 +76,7 @@ const getAllTransactions = async (storeId) => {
 };
 
 const getTransactionById = async (id, storeId) => {
+  console.log(id, storeId);
 
   const trx = await prisma.transaction.findFirst({
     where: {
@@ -96,8 +98,13 @@ const getTransactionById = async (id, storeId) => {
   return trx;
 };
 
+const getTransactionsForReport = async (storeId, startDate, endDate) => {
+  return await transactionRepo.findTransactionsByDateRange(storeId, startDate, endDate);
+};
+
 module.exports = {
   createTransaction,
   getAllTransactions,
-  getTransactionById
+  getTransactionById,
+  getTransactionsForReport
 };

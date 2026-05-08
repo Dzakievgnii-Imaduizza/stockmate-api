@@ -135,7 +135,8 @@ exports.Prisma.UserScalarFieldEnum = {
   password_hash: 'password_hash',
   role: 'role',
   store_id: 'store_id',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  otp: 'otp'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {

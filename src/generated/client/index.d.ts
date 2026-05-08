@@ -2889,6 +2889,7 @@ export namespace Prisma {
     role: string | null
     store_id: string | null
     created_at: Date | null
+    otp: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2899,6 +2900,7 @@ export namespace Prisma {
     role: string | null
     store_id: string | null
     created_at: Date | null
+    otp: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2909,6 +2911,7 @@ export namespace Prisma {
     role: number
     store_id: number
     created_at: number
+    otp: number
     _all: number
   }
 
@@ -2921,6 +2924,7 @@ export namespace Prisma {
     role?: true
     store_id?: true
     created_at?: true
+    otp?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2931,6 +2935,7 @@ export namespace Prisma {
     role?: true
     store_id?: true
     created_at?: true
+    otp?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2941,6 +2946,7 @@ export namespace Prisma {
     role?: true
     store_id?: true
     created_at?: true
+    otp?: true
     _all?: true
   }
 
@@ -3024,6 +3030,7 @@ export namespace Prisma {
     role: string
     store_id: string | null
     created_at: Date
+    otp: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -3051,6 +3058,7 @@ export namespace Prisma {
     role?: boolean
     store_id?: boolean
     created_at?: boolean
+    otp?: boolean
     store?: boolean | User$storeArgs<ExtArgs>
     transactions?: boolean | User$transactionsArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
@@ -3065,6 +3073,7 @@ export namespace Prisma {
     role?: boolean
     store_id?: boolean
     created_at?: boolean
+    otp?: boolean
     store?: boolean | User$storeArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3076,6 +3085,7 @@ export namespace Prisma {
     role?: boolean
     store_id?: boolean
     created_at?: boolean
+    otp?: boolean
     store?: boolean | User$storeArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3087,9 +3097,10 @@ export namespace Prisma {
     role?: boolean
     store_id?: boolean
     created_at?: boolean
+    otp?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password_hash" | "role" | "store_id" | "created_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password_hash" | "role" | "store_id" | "created_at" | "otp", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     store?: boolean | User$storeArgs<ExtArgs>
     transactions?: boolean | User$transactionsArgs<ExtArgs>
@@ -3118,6 +3129,7 @@ export namespace Prisma {
       role: string
       store_id: string | null
       created_at: Date
+      otp: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3551,6 +3563,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'String'>
     readonly store_id: FieldRef<"User", 'String'>
     readonly created_at: FieldRef<"User", 'DateTime'>
+    readonly otp: FieldRef<"User", 'String'>
   }
     
 
@@ -10846,7 +10859,8 @@ export namespace Prisma {
     password_hash: 'password_hash',
     role: 'role',
     store_id: 'store_id',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    otp: 'otp'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -11101,6 +11115,7 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     store_id?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
+    otp?: StringNullableFilter<"User"> | string | null
     store?: XOR<StoreNullableScalarRelationFilter, StoreWhereInput> | null
     transactions?: TransactionListRelationFilter
     notifications?: NotificationListRelationFilter
@@ -11114,6 +11129,7 @@ export namespace Prisma {
     role?: SortOrder
     store_id?: SortOrderInput | SortOrder
     created_at?: SortOrder
+    otp?: SortOrderInput | SortOrder
     store?: StoreOrderByWithRelationInput
     transactions?: TransactionOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
@@ -11130,6 +11146,7 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     store_id?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
+    otp?: StringNullableFilter<"User"> | string | null
     store?: XOR<StoreNullableScalarRelationFilter, StoreWhereInput> | null
     transactions?: TransactionListRelationFilter
     notifications?: NotificationListRelationFilter
@@ -11143,6 +11160,7 @@ export namespace Prisma {
     role?: SortOrder
     store_id?: SortOrderInput | SortOrder
     created_at?: SortOrder
+    otp?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -11159,6 +11177,7 @@ export namespace Prisma {
     role?: StringWithAggregatesFilter<"User"> | string
     store_id?: StringNullableWithAggregatesFilter<"User"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    otp?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type CategoryWhereInput = {
@@ -11656,6 +11675,7 @@ export namespace Prisma {
     password_hash: string
     role: string
     created_at?: Date | string
+    otp?: string | null
     store?: StoreCreateNestedOneWithoutUsersInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
@@ -11669,6 +11689,7 @@ export namespace Prisma {
     role: string
     store_id?: string | null
     created_at?: Date | string
+    otp?: string | null
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
   }
@@ -11680,6 +11701,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     store?: StoreUpdateOneWithoutUsersNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
@@ -11693,6 +11715,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     store_id?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -11705,6 +11728,7 @@ export namespace Prisma {
     role: string
     store_id?: string | null
     created_at?: Date | string
+    otp?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -11714,6 +11738,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -11724,6 +11749,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     store_id?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryCreateInput = {
@@ -12323,6 +12349,7 @@ export namespace Prisma {
     role?: SortOrder
     store_id?: SortOrder
     created_at?: SortOrder
+    otp?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -12333,6 +12360,7 @@ export namespace Prisma {
     role?: SortOrder
     store_id?: SortOrder
     created_at?: SortOrder
+    otp?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -12343,6 +12371,7 @@ export namespace Prisma {
     role?: SortOrder
     store_id?: SortOrder
     created_at?: SortOrder
+    otp?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12945,6 +12974,10 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type StoreUpdateOneWithoutUsersNestedInput = {
     create?: XOR<StoreCreateWithoutUsersInput, StoreUncheckedCreateWithoutUsersInput>
     connectOrCreate?: StoreCreateOrConnectWithoutUsersInput
@@ -12981,10 +13014,6 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type TransactionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -13550,6 +13579,7 @@ export namespace Prisma {
     password_hash: string
     role: string
     created_at?: Date | string
+    otp?: string | null
     transactions?: TransactionCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
   }
@@ -13561,6 +13591,7 @@ export namespace Prisma {
     password_hash: string
     role: string
     created_at?: Date | string
+    otp?: string | null
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
   }
@@ -13720,6 +13751,7 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     store_id?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
+    otp?: StringNullableFilter<"User"> | string | null
   }
 
   export type CategoryUpsertWithWhereUniqueWithoutStoreInput = {
@@ -14470,6 +14502,7 @@ export namespace Prisma {
     password_hash: string
     role: string
     created_at?: Date | string
+    otp?: string | null
     store?: StoreCreateNestedOneWithoutUsersInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
   }
@@ -14482,6 +14515,7 @@ export namespace Prisma {
     role: string
     store_id?: string | null
     created_at?: Date | string
+    otp?: string | null
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -14549,6 +14583,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     store?: StoreUpdateOneWithoutUsersNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
   }
@@ -14561,6 +14596,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     store_id?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -14711,6 +14747,7 @@ export namespace Prisma {
     password_hash: string
     role: string
     created_at?: Date | string
+    otp?: string | null
     store?: StoreCreateNestedOneWithoutUsersInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
   }
@@ -14723,6 +14760,7 @@ export namespace Prisma {
     role: string
     store_id?: string | null
     created_at?: Date | string
+    otp?: string | null
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -14784,6 +14822,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     store?: StoreUpdateOneWithoutUsersNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
   }
@@ -14796,6 +14835,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     store_id?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -14847,6 +14887,7 @@ export namespace Prisma {
     password_hash: string
     role: string
     created_at?: Date | string
+    otp?: string | null
   }
 
   export type CategoryCreateManyStoreInput = {
@@ -14891,6 +14932,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     transactions?: TransactionUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
   }
@@ -14902,6 +14944,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -14913,6 +14956,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryUpdateWithoutStoreInput = {
