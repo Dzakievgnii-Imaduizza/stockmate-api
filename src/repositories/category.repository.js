@@ -72,4 +72,4 @@ const remove = async (id, storeId) => {
   });
 };
 
-module.exports = { create, findByStore, findById, update, remove }
+module.exports = { create, findByStore, findById, update, remove };

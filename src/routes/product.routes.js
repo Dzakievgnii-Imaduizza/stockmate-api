@@ -18,13 +18,9 @@ const { protect, adminOnly } = require('../middlewares/auth.middleware');
 // Lock everything down
 router.use(protect); 
 
-router.post('/', adminOnly, productCtrl.createProduct);
-router.get('/', productCtrl.getProducts);
-
-// Existing specific patch
-router.patch('/:id/stock', adminOnly, productCtrl.patchStock);
-
-// NEW: General patch for editing product details
-router.patch('/:id', adminOnly, productCtrl.updateProduct); // AMAN MAS HARUSNYA
+router.post('/', protect, adminOnly, productCtrl.createProduct);
+router.get('/', protect, productCtrl.getProducts);
+router.patch('/:id/stock', protect, adminOnly, productCtrl.patchStock);
+router.patch('/:id', protect, adminOnly, productCtrl.updateProduct); // AMAN MAS HARUSNYA
 
 module.exports = router;

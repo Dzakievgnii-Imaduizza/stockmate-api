@@ -10,6 +10,7 @@ router.post('/verify-otp', userCtrl.verifyOtp);
 router.get('/', protect, adminOnly, userCtrl.getUsers);
 router.get('/:id', protect, adminOnly, userCtrl.getUserById);
 router.patch('/:id', protect, adminOnly, userCtrl.patchUser);
+router.post('/reset-password', userCtrl.resetPassword);
 router.delete('/:id', protect, adminOnly, userCtrl.removeUser);
 
 module.exports = router;

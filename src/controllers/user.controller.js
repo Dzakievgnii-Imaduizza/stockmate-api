@@ -102,9 +102,34 @@ const verifyOtp = async (req, res) => {
       return res.status(401).json({ error: "Invalid OTP" });
     }
 
-    res.status(200).json({ message: "OTP verified successfully" });
+    res.status(200).json({ 
+      message: "OTP verified successfully",
+      token: isValidOtp.resetToken
+     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    // Note: We expect the frontend to send the temporary token in the body, 
+    // but you could also extract it from a Bearer header if you prefer.
+    const { resetToken, newPassword } = req.body;
+
+    if (!resetToken || !newPassword) {
+      return res.status(400).json({ error: 'Reset token and new password are required' });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters long' });
+    }
+
+    const result = await userService.executePasswordReset(resetToken, newPassword);
+    return res.status(200).json(result);
+
+  } catch (err) {
+    return res.status(401).json({ error: err.message }); // 401 Unauthorized for expired/invalid tokens
   }
 };
 
@@ -117,4 +142,4 @@ const removeUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUsers, getUserById, patchUser, removeUser, verifyOtp, giveOtp };
+module.exports = { register, login, getUsers, getUserById, patchUser, removeUser, verifyOtp, giveOtp, resetPassword };

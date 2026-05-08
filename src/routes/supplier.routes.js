@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const supplierController = require("../controllers/supplier.controller");
-const { protect } = require("../middlewares/auth.middleware");
+const { protect, adminOnly} = require("../middlewares/auth.middleware");
 
-router.post("/", protect, supplierController.createSupplier);
+router.post("/", protect, adminOnly, supplierController.createSupplier);
 
 router.get("/", protect, supplierController.getSuppliers);
 

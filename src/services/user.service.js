@@ -52,15 +52,70 @@ const updateUser = async (id, data) => {
   return await userRepo.update(id, data);
 };
 
+// const verifyOtp = async (email, otp) => {
+//   const user = await userRepo.findByEmail(email);
+//   console.log(user);
+//   if (!user) throw new Error('User not found');
+
+//   const isMatch = await bcrypt.compare(otp, user.otp);
+//   if (!isMatch) throw new Error('Invalid OTP');
+//   return true;
+// };
 const verifyOtp = async (email, otp) => {
   const user = await userRepo.findByEmail(email);
-  console.log(user);
   if (!user) throw new Error('User not found');
 
-  const isMatch = await bcrypt.compare(otp, user.otp);
-  if (!isMatch) throw new Error('Invalid OTP');
+  try {
+      const isMatch = await bcrypt.compare(otp, user.otp);
+    if (!isMatch) throw new Error('Invalid OTP');
+    const resetSessionToken = jwt.sign(
+      { id: user.id, email: user.email, purpose: 'password_reset' },
+      process.env.JWT_SECRET || 'supersecretkey',
+      { expiresIn: '15m' } 
+    );
 
-  return true;
+    // Optional but recommended: Clear the OTP from the database so it can't be reused
+    await userRepo.update(user.id, { otp: null });
+
+    return { 
+      message: 'OTP verified. Please proceed to reset your password.',
+      resetToken: resetSessionToken 
+    };
+  } catch (error) {
+    throw new Error('Invalid OTP');
+  }
+};
+
+const executePasswordReset = async (resetToken, newPassword) => {
+  try {
+    // Verify the token
+    const decoded = jwt.verify(resetToken, process.env.JWT_SECRET || 'supersecretkey');
+
+    // 🛑 CRITICAL SECURITY CHECK: Ensure this is a reset token, not a regular login token
+    if (decoded.purpose !== 'password_reset') {
+      throw new Error('Invalid token type');
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update the password in the DB
+    const user = await userRepo.findByEmail(decoded.email);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    await userRepo.update(user.id, { password_hash: hashedPassword });
+
+    return { message: 'Password has been reset successfully. You can now log in.' };
+
+  } catch (error) {
+    // 🚨 UNMASK THE ERROR: Print it to the terminal!
+    console.log("====================================");
+    console.log("REAL RESET ERROR:", error);
+    console.log("====================================");
+    throw new Error('Temporary session expired or invalid. Please request a new OTP.');
+  }
 };
 
 const getUserByEmail = async (email) => {
@@ -76,6 +131,7 @@ module.exports = {
   getUserProfile, 
   updateUser,
   verifyOtp,
+  executePasswordReset,
   getUserByEmail, 
   deleteUser 
 };
