@@ -44,6 +44,7 @@ model User {
   store         Store?         @relation(fields: [store_id], references: [id])
   transactions  Transaction[]
   notifications Notification[]
+  review        Reviews[]
 }
 
 model Category {
@@ -64,23 +65,26 @@ model Supplier {
   address    String
   latitude   Float?
   longitude  Float?
+  rating     Float?
   created_at DateTime @default(now())
 
   // Relations
-  store Store @relation(fields: [store_id], references: [id])
+  store  Store     @relation(fields: [store_id], references: [id])
+  review Reviews[]
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  store_id    String
-  category_id String
-  name        String
-  buy_price   Float
-  sell_price  Float
-  stock_qty   Int      @default(0)
-  min_stock   Int      @default(5)
-  unit        String
-  created_at  DateTime @default(now())
+  id                 String    @id @default(uuid())
+  store_id           String
+  category_id        String
+  name               String
+  buy_price          Float
+  sell_price         Float
+  stock_qty          Int       @default(0)
+  min_stock          Int       @default(5)
+  unit               String
+  predicted_stockout DateTime?
+  created_at         DateTime  @default(now())
 
   // Relations
   store         Store          @relation(fields: [store_id], references: [id])
@@ -91,13 +95,14 @@ model Product {
 }
 
 model Transaction {
-  id         String   @id @default(uuid())
-  product_id String
-  user_id    String
-  type       String // e.g., "IN", "OUT"
-  qty        Int
-  note       String?
-  created_at DateTime @default(now())
+  id          String   @id @default(uuid())
+  product_id  String
+  user_id     String
+  type        String // e.g., "IN", "OUT"
+  qty         Int
+  note        String?
+  trans_price Float
+  created_at  DateTime @default(now())
 
   // Relations
   product Product @relation(fields: [product_id], references: [id])
@@ -128,4 +133,16 @@ model Notification {
   // Relations
   user    User    @relation(fields: [user_id], references: [id])
   product Product @relation(fields: [product_id], references: [id])
+}
+
+model Reviews {
+  id          String @id @default(uuid())
+  supplier_id String
+  user_id     String
+  star        Int
+  review      String
+
+  // Relations
+  user     User     @relation(fields: [user_id], references: [id])
+  supplier Supplier @relation(fields: [supplier_id], references: [id])
 }

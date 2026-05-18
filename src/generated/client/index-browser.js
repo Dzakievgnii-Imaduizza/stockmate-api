@@ -153,6 +153,7 @@ exports.Prisma.SupplierScalarFieldEnum = {
   address: 'address',
   latitude: 'latitude',
   longitude: 'longitude',
+  rating: 'rating',
   created_at: 'created_at'
 };
 
@@ -166,6 +167,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   stock_qty: 'stock_qty',
   min_stock: 'min_stock',
   unit: 'unit',
+  predicted_stockout: 'predicted_stockout',
   created_at: 'created_at'
 };
 
@@ -176,6 +178,7 @@ exports.Prisma.TransactionScalarFieldEnum = {
   type: 'type',
   qty: 'qty',
   note: 'note',
+  trans_price: 'trans_price',
   created_at: 'created_at'
 };
 
@@ -195,6 +198,14 @@ exports.Prisma.NotificationScalarFieldEnum = {
   message: 'message',
   is_read: 'is_read',
   created_at: 'created_at'
+};
+
+exports.Prisma.ReviewsScalarFieldEnum = {
+  id: 'id',
+  supplier_id: 'supplier_id',
+  user_id: 'user_id',
+  star: 'star',
+  review: 'review'
 };
 
 exports.Prisma.SortOrder = {
@@ -221,7 +232,8 @@ exports.Prisma.ModelName = {
   Product: 'Product',
   Transaction: 'Transaction',
   StockRule: 'StockRule',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  Reviews: 'Reviews'
 };
 
 /**

@@ -10,6 +10,7 @@ const supplierRoutes = require("./src/routes/supplier.routes");
 const notificationRoutes = require("./src/routes/notification.routes");
 const stockRuleRoutes = require("./src/routes/stockRule.routes");
 const dashboardRoutes = require('./src/routes/dashboard.routes');
+const reviewRoutes = require('./src/routes/review.routes');
 const { protect, adminOnly } = require('./src/middlewares/auth.middleware');
 const path = require('path');
 
@@ -37,6 +38,7 @@ app.use("/api/suppliers", supplierRoutes);
 app.use("/api/notif", notificationRoutes);
 app.use("/api/rule", stockRuleRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use('/api/review', reviewRoutes);
 
 
 // Health Check

@@ -1,4 +1,5 @@
 const transactionService = require('../services/transaction.service');
+const productService = require('../services/product.service');
 
 const createTransaction = async (req, res) => {
   try {
@@ -8,16 +9,30 @@ const createTransaction = async (req, res) => {
     }
 
     const userId = req.user.id;
+    const type = req.body.type;
+
+    const product = await productService.getById(req.body.product_id);
+    const transPrice = type == "IN" ? product.buy_price * req.body.qty : product.sell_price * req.body.qty;
 
     const data = {
       product_id: req.body.product_id,
       qty: req.body.qty,
       type: req.body.type,
       note: req.body.note,
-      user_id: userId
+      user_id: userId,
+      trans_price : transPrice
     };
 
     const result = await transactionService.createTransaction(data);
+
+    // return res.status(201).json(result);
+
+    // Trigger kalkulasi tanpa mengganggu response utama transaksi
+    try {
+      await productService.updatePredictedStockout(data.product_id);
+    } catch (calcError) {
+      console.error("Gagal menghitung predicted stockout:", calcError.message);
+    }
 
     return res.status(201).json(result);
 

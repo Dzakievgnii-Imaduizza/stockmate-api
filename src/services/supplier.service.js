@@ -43,6 +43,7 @@ const updateSupplier = async (id, storeId, data) => {
     name: data.name,
     phone: data.phone,
     address: data.address,
+    rating: data.rating? data.rating : undefined,
     latitude: coords ? coords.latitude : undefined,
     longitude: coords ? coords.longitude : undefined
   });

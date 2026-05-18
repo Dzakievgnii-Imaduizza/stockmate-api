@@ -35,7 +35,8 @@ const createTransaction = async (data) => {
         user_id: data.user_id,
         type: data.type,
         qty: data.qty,
-        note: data.note
+        note: data.note,
+        trans_price : data.trans_price
       }
     });
 
