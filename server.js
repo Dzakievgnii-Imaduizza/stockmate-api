@@ -10,7 +10,7 @@ const supplierRoutes = require("./src/routes/supplier.routes");
 const notificationRoutes = require("./src/routes/notification.routes");
 const stockRuleRoutes = require("./src/routes/stockRule.routes");
 const dashboardRoutes = require('./src/routes/dashboard.routes');
-const {protect, adminOnly} = require('./src/middlewares/auth.middleware');
+const { protect, adminOnly } = require('./src/middlewares/auth.middleware');
 const path = require('path');
 
 // Load environment variables
@@ -23,9 +23,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use(
-  '/reports', 
-  protect, 
-  adminOnly, 
+  '/reports',
   express.static(path.join(process.cwd(), 'reports'))
 );
 
@@ -43,20 +41,20 @@ app.use("/api/dashboard", dashboardRoutes);
 
 // Health Check
 app.get('/ping', (req, res) => {
-  res.status(200).json({ 
+  res.status(200).json({
     message: 'pong',
-    timestamp: new Date().toISOString() 
+    timestamp: new Date().toISOString()
   });
 });
 
 // Sample API Route
 app.post('/api/data', (req, res) => {
   const { name } = req.body;
-  
+
   if (!name) {
     return res.status(400).json({ error: 'Name is required, boss.' });
   }
-  
+
   res.status(201).json({
     message: `Data received for ${name}`,
     received: true

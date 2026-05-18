@@ -14,7 +14,7 @@ const protect = async (req, res, next) => {
 
       // Add user info from payload to the request object
       req.user = decoded;
-      
+
       next();
     } catch (error) {
       res.status(401).json({ error: 'Not authorized, token failed' });
@@ -28,6 +28,8 @@ const protect = async (req, res, next) => {
 
 const adminOnly = (req, res, next) => {
   // Check if req.user exists (set by protect) and if role is admin
+  const user = req.user;
+  console.log(user);
   if (req.user && req.user.role === 'admin') {
     next();
   } else {

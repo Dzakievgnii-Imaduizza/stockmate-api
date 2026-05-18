@@ -40,7 +40,7 @@ const findById = async (id, storeId) => {
       user: true
     }
   });
-  
+
 };
 // NEW: Count transactions between dates, filtering through the product relation
 const countByDateRange = async (storeId, startDate, endDate) => {
@@ -62,7 +62,7 @@ const findInTransactionsByDateRange = async (storeId, startDate, endDate) => {
       product: {
         store_id: storeId
       },
-      type: 'IN',
+      type: 'In',
       created_at: {
         gte: startDate,
         lte: endDate
@@ -84,7 +84,7 @@ const findOutTransactionsByDateRange = async (storeId, startDate, endDate) => {
       product: {
         store_id: storeId
       },
-      type: 'OUT',
+      type: 'Out',
       created_at: {
         gte: startDate,
         lte: endDate

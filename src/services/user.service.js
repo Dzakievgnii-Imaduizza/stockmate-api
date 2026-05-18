@@ -1,6 +1,7 @@
 const userRepo = require('../repositories/user.repository');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { user } = require('../config/prisma');
 
 const registerUser = async (data) => {
   const existing = await userRepo.findByEmail(data.email);
@@ -27,9 +28,9 @@ const loginUser = async (email, password) => {
     { expiresIn: '1d' }
   );
 
-  return { 
-    token, 
-    user: { id: user.id, name: user.name, role: user.role } 
+  return {
+    token,
+    user: { id: user.id, name: user.name, role: user.role }
   };
 };
 
@@ -41,15 +42,23 @@ const getUserProfile = async (id, detailed) => {
 };
 
 const updateUser = async (id, data) => {
-  if (data.password_hash) {
+  // const oldData = userRepo.findBasic(id);
+  newData = {};
+  if (data.password) {
     const salt = await bcrypt.genSalt(10);
-    data.password_hash = await bcrypt.hash(data.password_hash, salt);
+    newData.password_hash = await bcrypt.hash(data.password, salt);
   }
   if (data.otp) {
     const salt = await bcrypt.genSalt(10);
-    data.otp = await bcrypt.hash(data.otp.toString(), salt);
+    newData.otp = await bcrypt.hash(data.otp.toString(), salt);
   }
-  return await userRepo.update(id, data);
+  if (data.name) {
+    newData.name = data.name;
+  }
+  if (data.email) {
+    newData.email = data.email;
+  }
+  return await userRepo.update(id, newData);
 };
 
 // const verifyOtp = async (email, otp) => {
@@ -66,20 +75,20 @@ const verifyOtp = async (email, otp) => {
   if (!user) throw new Error('User not found');
 
   try {
-      const isMatch = await bcrypt.compare(otp, user.otp);
+    const isMatch = await bcrypt.compare(otp, user.otp);
     if (!isMatch) throw new Error('Invalid OTP');
     const resetSessionToken = jwt.sign(
       { id: user.id, email: user.email, purpose: 'password_reset' },
       process.env.JWT_SECRET || 'supersecretkey',
-      { expiresIn: '15m' } 
+      { expiresIn: '15m' }
     );
 
     // Optional but recommended: Clear the OTP from the database so it can't be reused
     await userRepo.update(user.id, { otp: null });
 
-    return { 
+    return {
       message: 'OTP verified. Please proceed to reset your password.',
-      resetToken: resetSessionToken 
+      resetToken: resetSessionToken
     };
   } catch (error) {
     throw new Error('Invalid OTP');
@@ -110,10 +119,6 @@ const executePasswordReset = async (resetToken, newPassword) => {
     return { message: 'Password has been reset successfully. You can now log in.' };
 
   } catch (error) {
-    // 🚨 UNMASK THE ERROR: Print it to the terminal!
-    console.log("====================================");
-    console.log("REAL RESET ERROR:", error);
-    console.log("====================================");
     throw new Error('Temporary session expired or invalid. Please request a new OTP.');
   }
 };
@@ -124,14 +129,14 @@ const getUserByEmail = async (email) => {
 
 const deleteUser = async (id) => await userRepo.remove(id);
 
-module.exports = { 
-  registerUser, 
-  loginUser, 
-  getAllUsers, 
-  getUserProfile, 
+module.exports = {
+  registerUser,
+  loginUser,
+  getAllUsers,
+  getUserProfile,
   updateUser,
   verifyOtp,
   executePasswordReset,
-  getUserByEmail, 
-  deleteUser 
+  getUserByEmail,
+  deleteUser
 };

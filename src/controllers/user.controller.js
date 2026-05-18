@@ -15,8 +15,8 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     // Change this line to look for 'password' instead of 'password_hash'
-    const { email, password } = req.body; 
-    
+    const { email, password } = req.body;
+
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
@@ -30,7 +30,8 @@ const login = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await userService.getAllUsers(req.query.store_id);
+    const store_id = req.user.store_id
+    const users = await userService.getAllUsers(store_id);
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -57,23 +58,23 @@ const patchUser = async (req, res) => {
 
 const giveOtp = async (req, res) => {
   try {
-    const  email  = req.body.email;
+    const email = req.body.email;
 
     if (!email) {
       return res.status(400).json({ error: "Email is required" });
     }
-    
+
     const user = await userService.getUserByEmail(email);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    
+
     const id = user.id;
 
     const otp = Math.floor(100000 + Math.random() * 900000); // Generate a random 6-digit OTP
 
-    await userService.updateUser(id, { otp: otp }); 
+    await userService.updateUser(id, { otp: otp });
     await n8nService.sendResetCodeEmail(email, otp);
     res.status(200).json({ message: "OTP sent to email" });
   } catch (err) {
@@ -95,17 +96,17 @@ const verifyOtp = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    
+
     const isValidOtp = await userService.verifyOtp(email, otp);
 
     if (!isValidOtp) {
       return res.status(401).json({ error: "Invalid OTP" });
     }
 
-    res.status(200).json({ 
+    res.status(200).json({
       message: "OTP verified successfully",
       token: isValidOtp.resetToken
-     });
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

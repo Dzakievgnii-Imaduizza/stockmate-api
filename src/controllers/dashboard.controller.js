@@ -29,7 +29,7 @@ const getDashboardSummary = async (req, res) => {
 
     // 5. Generate Chart Data (Dynamic to current day of the week)
     const dayNames = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-    
+
     // Initialize the chart structure with 0s
     const chartData = {};
     dayNames.forEach(day => {
@@ -38,8 +38,8 @@ const getDashboardSummary = async (req, res) => {
 
     // Get current day index (0 = Sunday, 1 = Monday, etc.)
     const today = new Date();
-    const currentDayOfWeek = today.getDay(); 
-    
+    const currentDayOfWeek = today.getDay();
+
     // Adjust index so Monday is 0 and Sunday is 6
     const adjustedCurrentDayIndex = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
 
@@ -51,10 +51,10 @@ const getDashboardSummary = async (req, res) => {
       const targetDate = new Date(today);
       // Subtract days to go backwards in the week
       targetDate.setDate(today.getDate() - (adjustedCurrentDayIndex - i));
-      
+
       const startOfDay = new Date(targetDate);
       startOfDay.setHours(0, 0, 0, 0);
-      
+
       const endOfDay = new Date(targetDate);
       endOfDay.setHours(23, 59, 59, 999);
 
@@ -64,7 +64,7 @@ const getDashboardSummary = async (req, res) => {
       chartPromises.push((async () => {
         const inRecords = await dashboardService.getInTransactions(storeId, startOfDay, endOfDay);
         const outRecords = await dashboardService.getOutTransactions(storeId, startOfDay, endOfDay);
-        
+
         // Using the length of the returned array as the count of transactions.
         // (Note: If you want the sum of the product quantities instead, you would use: 
         // inRecords.reduce((sum, item) => sum + item.qty, 0) )
