@@ -46,7 +46,7 @@ const updateReview = async (req, res) => {
     const data = {rating : rating};
     // console.log(data);
     await supplierService.updateSupplier(req.body.supplier_id, req.user.store_id, data);
-    res.status(201).json(rev);
+    res.status(200).json(rev);
 
   } catch (err) {
     res.status(400).json({ error: err.message });
