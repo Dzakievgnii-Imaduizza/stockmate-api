@@ -2,7 +2,6 @@ const supplierService = require("../services/supplier.service");
 
 const createSupplier = async (req, res) => {
   try {
-    console.log(req.user);
 
     const result = await supplierService.createSupplier(
       req.body,

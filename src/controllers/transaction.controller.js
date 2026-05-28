@@ -30,6 +30,7 @@ const createTransaction = async (req, res) => {
     // Trigger kalkulasi tanpa mengganggu response utama transaksi
     try {
       await productService.updatePredictedStockout(data.product_id);
+      console.log("Berhasil");
     } catch (calcError) {
       console.error("Gagal menghitung predicted stockout:", calcError.message);
     }
