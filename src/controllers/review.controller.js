@@ -18,7 +18,33 @@ const createReview = async (req, res) => {
         rating = req.body.star;
     }
     const data = {rating : rating};
-    console.log(data);
+    // console.log(data);
+    await supplierService.updateSupplier(req.body.supplier_id, req.user.store_id, data);
+    res.status(201).json(rev);
+
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+const updateReview = async (req, res) => {
+  try {
+    const supplierReviews = await reviewService.getReviewBySupplier(req.body.supplier_id);
+    const numReviews = supplierReviews.length
+    const currReview = await supplierService.getSupplierById(req.body.supplier_id, req.user.store_id)
+
+    const rev = await reviewService.updateReview(
+      req.params.id,
+      req.body
+    );
+    let rating;
+    if (numReviews > 0){
+        rating = (currReview.rating * (numReviews-1) + req.body.star)/(numReviews+ 1);
+    } else {
+        rating = req.body.star;
+    }
+    const data = {rating : rating};
+    // console.log(data);
     await supplierService.updateSupplier(req.body.supplier_id, req.user.store_id, data);
     res.status(201).json(rev);
 
@@ -41,6 +67,21 @@ const getReviewByUser = async (req, res) => {
   }
 };
 
+// const updateReview = async (req, res) => {
+//   try {
+
+//     const result = await reviewService.updateStockRule(
+//       req.params.id,
+//       req.body
+//     );
+
+//     res.status(200).json({message : "Berhasil di Update"});
+
+//   } catch (err) {
+//     res.status(400).json({ error: err.message });
+//   }
+// };
+
 
 const deleteReview = async (req, res) => {
   try {
@@ -60,6 +101,7 @@ const deleteReview = async (req, res) => {
 
 module.exports = {
   createReview,
+  updateReview,
   getReviewByUser,
   deleteReview
 };

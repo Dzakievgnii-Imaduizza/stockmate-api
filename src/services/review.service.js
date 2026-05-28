@@ -21,6 +21,9 @@ const getReviewById = async (Id) => {
 const getReviewByUser = async (userId) => {
   return reviewRepo.findByUser(userId);
 };
+const updateReview = async (id, data) => {
+  return reviewRepo.update(id, data);
+};
 
 const deleteReview = async (id, storeId) => {
   return reviewRepo.remove(id, storeId);
@@ -31,5 +34,6 @@ module.exports = {
     getReviewById,
     getReviewBySupplier,
     getReviewByUser,
+    updateReview,
     deleteReview
 };

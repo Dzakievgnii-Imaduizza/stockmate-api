@@ -18,7 +18,7 @@ const { protect, adminOnly } = require('../middlewares/auth.middleware');
 // Lock everything down
 router.use(protect); 
 
-router.post('/', protect, productCtrl.createProduct);
+router.post('/', protect, adminOnly, productCtrl.createProduct);
 router.get('/', protect, productCtrl.getProducts);
 router.patch('/:id/stock', protect, adminOnly, productCtrl.patchStock);
 router.patch('/:id', protect, adminOnly, productCtrl.updateProduct); // AMAN MAS HARUSNYA

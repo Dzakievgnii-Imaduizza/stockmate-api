@@ -22,6 +22,13 @@ const findByUser = async (userId) => {
     });
 }
 
+const update = async (id, data) => {
+  return await prisma.reviews.updateMany({
+    where: { id },
+    data
+  });
+};
+
 
 
 const remove = async (id) => {
@@ -37,5 +44,6 @@ module.exports = {
   findBySupplier,
   findById,
   findByUser,
+  update,
   remove
 };
