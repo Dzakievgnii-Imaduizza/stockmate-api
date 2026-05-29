@@ -46,6 +46,14 @@ const getUserById = async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 };
+const getUserProfile = async (req, res) => {
+  try {
+    const user = await userService.getUserProfile(req.user.id, req.query.includeStore === 'true');
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
 
 const patchUser = async (req, res) => {
   try {
@@ -143,4 +151,4 @@ const removeUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUsers, getUserById, patchUser, removeUser, verifyOtp, giveOtp, resetPassword };
+module.exports = { register, login, getUsers, getUserById,getUserProfile, patchUser, removeUser, verifyOtp, giveOtp, resetPassword };
