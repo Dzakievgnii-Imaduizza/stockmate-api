@@ -26,8 +26,11 @@ const productRepo = require('../repositories/product.repository');
 const prisma = require('../config/prisma');
 
 const addProduct = async (productData, storeId) => {
-  if (!productData.name || !productData.buy_price || !productData.sell_price || !productData.category_id || !productData.min_stock || !productData.unit ) {
+  if (!productData.name || !productData.buy_price || !productData.sell_price || !productData.category_id || !productData.min_stock || !productData.unit || !productData.supplier_id) {
     throw new Error('Name and Price are required');
+  }
+  if (productData.buy_price <= 0 || productData.sell_price <= 0 || productData.stock_qty <= 0|| productData.min_stock <= 0 ){
+    throw new Error('Prices cannot be 0 or negative');
   }
   // Force the store_id from the token
   return await productRepo.create({ ...productData, store_id: storeId });

@@ -69,14 +69,16 @@ model Supplier {
   created_at DateTime @default(now())
 
   // Relations
-  store  Store     @relation(fields: [store_id], references: [id])
-  review Reviews[]
+  store   Store     @relation(fields: [store_id], references: [id])
+  review  Reviews[]
+  product Product[]
 }
 
 model Product {
   id                 String    @id @default(uuid())
   store_id           String
   category_id        String
+  supplier_id        String
   name               String
   buy_price          Float
   sell_price         Float
@@ -89,6 +91,7 @@ model Product {
   // Relations
   store         Store          @relation(fields: [store_id], references: [id])
   category      Category       @relation(fields: [category_id], references: [id])
+  supplier      Supplier       @relation(fields: [supplier_id], references: [id])
   transactions  Transaction[]
   stock_rules   StockRule[]
   notifications Notification[]

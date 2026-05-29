@@ -7,6 +7,9 @@ const createStockRule = async (data, storeId) => {
   if (existing) {
     throw new Error("Stock rule already exists for this product");
   }
+  if (data.min_threshold <= 0 || data.restock_suggestion <= 0){
+    throw new Error("Values cannot be <= 0");
+  }
 
   return stockRuleRepo.create({
     store_id: storeId,
