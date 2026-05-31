@@ -1,0 +1,111 @@
+{
+  "name": "STOCKMATE_EXCEL",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5415d02c-b50f-48eb-a82d-131adb7c1f7e",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -704,
+        0
+      ],
+      "id": "d75171d8-054d-4cca-9ec8-108118925100",
+      "name": "Webhook",
+      "webhookId": "5415d02c-b50f-48eb-a82d-131adb7c1f7e"
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        384,
+        -16
+      ],
+      "id": "3d8fcccf-0f0a-4a45-bd89-09f250a6941d",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        64
+      ],
+      "id": "7e185349-60a2-4a92-9e8b-4347662d9560",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        64
+      ],
+      "id": "a62f7582-7c0c-45cc-80c9-7a00cea4c24d",
+      "name": "Convert to File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f23e3c4d-8de2-4188-9272-b278ba1f59d4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "06f979fbc28ff57246d2c6192d09ef4d742234fae42482cb13dadf9b03d2fc6c"
+  },
+  "id": "9jrrGuw8iLANl7EV",
+  "tags": []
+}
