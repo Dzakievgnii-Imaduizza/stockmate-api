@@ -105,7 +105,7 @@ async function main() {
         create: [
           {
             name: 'The Boss',
-            email: 'boss@stockmate.com',
+            email: 'stockmate51@gmail.com',
             password_hash: ownerPasswordHash,
             role: 'admin', // Full lowercase matching custom data
           },
